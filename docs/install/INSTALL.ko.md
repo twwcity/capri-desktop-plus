@@ -17,8 +17,8 @@ Capri Desktop Plus는 [mochiiwuff의 Capri Desktop](https://github.com/mochiiwuf
 
 | 파일 | 내용 |
 |---|---|
-| `Capri-Desktop-Plus-v1.0.0-app.zip` | 앱, 실행 스크립트, 음성 인식(Whisper), 게임 도구 |
-| `Capri-Desktop-Plus-v1.0.0-voices.zip` | Capri의 목소리 (영어, 일본어, 중국어, 한국어, 태국어) |
+| `Capri-Desktop-Plus-v1.0.1-app.zip` | 앱, 실행 스크립트, 음성 인식(Whisper), 게임 도구 |
+| `Capri-Desktop-Plus-v1.0.1-voices.zip` | Capri의 목소리 (영어, 일본어, 중국어, 한국어, 태국어) |
 
 ## 2. 두 파일을 같은 곳에 압축 해제
 

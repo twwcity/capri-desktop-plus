@@ -17,8 +17,8 @@ Capri Desktop Plus ต่อยอดมาจาก [Capri Desktop ของ mo
 
 | ไฟล์ | มีอะไร |
 |---|---|
-| `Capri-Desktop-Plus-v1.0.0-app.zip` | ตัวโปรแกรม สคริปต์เปิด ระบบฟังเสียง (Whisper) และเครื่องมือเกม |
-| `Capri-Desktop-Plus-v1.0.0-voices.zip` | เสียงพูดของ Capri (อังกฤษ ญี่ปุ่น จีน เกาหลี ไทย) |
+| `Capri-Desktop-Plus-v1.0.1-app.zip` | ตัวโปรแกรม สคริปต์เปิด ระบบฟังเสียง (Whisper) และเครื่องมือเกม |
+| `Capri-Desktop-Plus-v1.0.1-voices.zip` | เสียงพูดของ Capri (อังกฤษ ญี่ปุ่น จีน เกาหลี ไทย) |
 
 ## 2. แตกไฟล์ทั้งสองไว้ที่เดียวกัน
 

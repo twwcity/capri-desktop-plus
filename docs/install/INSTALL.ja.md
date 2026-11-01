@@ -17,8 +17,8 @@ Capri Desktop Plus は [mochiiwuff 氏の Capri Desktop](https://github.com/moch
 
 | ファイル | 内容 |
 |---|---|
-| `Capri-Desktop-Plus-v1.0.0-app.zip` | アプリ本体、起動スクリプト、音声認識（Whisper）、ゲーム用ツール |
-| `Capri-Desktop-Plus-v1.0.0-voices.zip` | Capri の声（英語・日本語・中国語・韓国語・タイ語） |
+| `Capri-Desktop-Plus-v1.0.1-app.zip` | アプリ本体、起動スクリプト、音声認識（Whisper）、ゲーム用ツール |
+| `Capri-Desktop-Plus-v1.0.1-voices.zip` | Capri の声（英語・日本語・中国語・韓国語・タイ語） |
 
 ## 2. 両方を同じ場所に展開する
 
