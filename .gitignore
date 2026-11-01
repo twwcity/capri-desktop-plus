@@ -1,0 +1,7 @@
+node_modules/
+minecraft-mod/build/
+minecraft-mod/.gradle/
+minecraft-mod/run/
+*.log
+.env
+data/

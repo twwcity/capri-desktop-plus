@@ -1,0 +1,22 @@
+{
+	"schemaVersion": 1,
+	"id": "capri",
+	"version": "${version}",
+	"name": "Capri Link",
+	"description": "Capri, the Project Capricorn construct from Cyberpunk: Edgerunners, jacked into your world. Type \"capri ...\" in chat: she answers (through Capri on your desktop), scans for ores (capri scan) and quickhacks every hostile mob around you with red Blackwall lightning (capri shock). A fan-made mod.",
+	"authors": ["ice", "Capri"],
+	"contact": {},
+	"license": "MIT",
+	"icon": "assets/capri/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["dev.capri.minecraft.CapriMod"]
+	},
+	"mixins": ["capri.mixins.json"],
+	"depends": {
+		"fabricloader": ">=0.16.0",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

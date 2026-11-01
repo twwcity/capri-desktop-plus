@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "dev.capri.minecraft.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [],
+	"client": [
+		"LightningEntityRendererMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

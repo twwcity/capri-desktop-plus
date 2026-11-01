@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob: capri:; font-src 'self'; connect-src 'self' capri:">
+  <title>Capri — Character &amp; theme</title>
+  <link rel="stylesheet" href="styles/editor.css">
+</head>
+<body>
+  <!-- every [data-t] text comes from editor.js STRINGS, in her language -->
+  <header class="top">
+    <h1 data-t="title"></h1>
+    <nav class="tabs" role="tablist">
+      <button class="tab is-on" data-tab="character" role="tab" data-t="tabCharacter"></button>
+      <button class="tab" data-tab="theme" role="tab" data-t="tabTheme"></button>
+    </nav>
+    <p class="status" id="status" aria-live="polite"></p>
+  </header>
+
+  <main class="page" id="page-character">
+    <!-- who's there: Capri (the original, never changed) and characters of yours -->
+    <aside class="side">
+      <h2 data-t="characters"></h2>
+      <ul class="roster" id="roster"></ul>
+      <button class="btn" id="new" type="button" data-t="newCharacter"></button>
+    </aside>
+
+    <!-- Capri: nothing to edit, she stays as she is -->
+    <section class="original" id="original">
+      <img src="../../assets/capri/capri-full.png" alt="Capri">
+      <div>
+        <h2 data-t="capriTitle"></h2>
+        <p data-t="capriKept"></p>
+        <p data-t="capriHow"></p>
+        <div class="row">
+          <button class="btn is-primary" id="use-capri" type="button" data-t="useCapri"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- a character of yours -->
+    <section class="work" id="work" hidden>
+      <div class="col">
+        <div class="field">
+          <label for="name" data-t="name"></label>
+          <input id="name" type="text" maxlength="24" data-t-ph="namePlaceholder">
+        </div>
+        <div class="row">
+          <button class="btn" id="pick" type="button" data-t="pickBody"></button>
+          <label class="check"><input id="keyout" type="checkbox"> <span data-t="removeBg"></span></label>
+        </div>
+        <div class="field" id="keyout-row" hidden>
+          <label for="tolerance" data-t="bgStrength"></label>
+          <input id="tolerance" type="range" min="4" max="120" value="40">
+        </div>
+        <p class="hint" data-t="bodyHint"></p>
+
+        <h3 data-t="bodyPoints"></h3>
+        <p class="hint" data-t="pointsHint"></p>
+        <ol class="points" id="points"></ol>
+        <div class="field">
+          <label for="armw"><span data-t="armWidth"></span> <span id="armw-val"></span></label>
+          <input id="armw" type="range" min="4" max="40" value="14">
+        </div>
+        <button class="btn" id="guess" type="button" data-t="guess"></button>
+      </div>
+
+      <div class="col col--stage">
+        <div class="stage" id="stage">
+          <canvas id="body" width="240" height="420"></canvas>
+          <svg id="marks" viewBox="0 0 240 420" aria-hidden="true"></svg>
+          <p class="stage__empty" id="stage-empty" data-t="pickFirst" hidden></p>
+        </div>
+      </div>
+
+      <div class="col">
+        <h3 data-t="preview"></h3>
+        <div class="preview"><canvas id="preview"></canvas></div>
+        <div class="row wrap" id="moves"></div>
+        <label class="check"><input id="loop" type="checkbox" checked> <span data-t="loop"></span></label>
+
+        <h3 data-t="faces"></h3>
+        <p class="hint" data-t="facesHint"></p>
+        <ul class="faces" id="faces"></ul>
+
+        <div class="row sticky">
+          <button class="btn is-primary" id="save" type="button" data-t="save"></button>
+          <button class="btn is-primary" id="use" type="button" data-t="saveUse"></button>
+          <button class="btn is-danger" id="delete" type="button" data-t="delete"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- try it on the desktop -->
+    <footer class="try">
+      <span data-t="tryOn"></span>
+      <div class="row wrap" id="try"></div>
+    </footer>
+  </main>
+
+  <main class="page" id="page-theme" hidden>
+    <section class="theme">
+      <h2 data-t="presets"></h2>
+      <ul class="presets" id="presets"></ul>
+      <h2 data-t="ownColors"></h2>
+      <div class="colors" id="colors"></div>
+      <div class="row">
+        <button class="btn" id="theme-reset" type="button" data-t="resetColors"></button>
+      </div>
+      <p class="hint" data-t="themeHint"></p>
+    </section>
+  </main>
+
+  <script type="module" src="js/editor.js"></script>
+</body>
+</html>
