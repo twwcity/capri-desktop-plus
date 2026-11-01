@@ -80,7 +80,13 @@ async function installCyberpunk() {
   }
   fs.mkdirSync(modDir(game), { recursive: true });
   fs.copyFileSync(path.join(MOD_SRC, 'init.lua'), path.join(modDir(game), 'init.lua'));
-  return { ok: true, message: 'Cyber Engine Tweaks and CapriLink are in. Start the game: the first time, CET asks you to pick a key for its console.' };
+  // CET's console opens with F1 (a key the game doesn't use), unless you already picked one.
+  // The key is a 64-bit number: F1 (0x70) in the top 16 bits, written as text so no digit is lost.
+  const binds = path.join(game, 'bin', 'x64', 'plugins', 'cyber_engine_tweaks', 'bindings.json');
+  let picked = false;
+  try { picked = Boolean(JSON.parse(fs.readFileSync(binds, 'utf8'))?.cet?.overlay_key); } catch { /* none yet */ }
+  if (!picked) fs.writeFileSync(binds, `{\n    "cet": {\n        "overlay_key": ${(0x70n << 48n).toString()}\n    }\n}\n`);
+  return { ok: true, message: `Cyber Engine Tweaks and CapriLink are in. Start the game and load a save${picked ? '' : ': F1 opens the CET console'}. Then just tell me what you want in the game.` };
 }
 
 let nextId = Date.now();
@@ -91,9 +97,9 @@ async function cyberpunk(command, arg = '') {
   if (!fs.existsSync(path.join(dir, 'init.lua'))) return { ok: false, error: 'CapriLink is not installed yet: say "install the Cyberpunk mod"' };
   if (!(await running('Cyberpunk2077.exe'))) return { ok: false, error: 'Cyberpunk is not running' };
   const id = ++nextId;
-  fs.writeFileSync(path.join(dir, 'inbox.txt'), `${id}|${command}|${String(arg).replace(/[|\r\n]/g, ' ')}|end\n`);
+  fs.writeFileSync(path.join(dir, 'inbox.txt'), `${id}|${command}|${String(arg).replace(/\r/g, '').replace(/\n/g, '\x1e').replace(/\|/g, ' ')}|end\n`);
   const outbox = path.join(dir, 'outbox.txt');
-  for (let waited = 0; waited < 8000; waited += 250) {
+  for (let waited = 0; waited < 15000; waited += 250) {
     await new Promise((r) => setTimeout(r, 250));
     let line = '';
     try { line = fs.readFileSync(outbox, 'utf8').trim(); } catch { continue; }

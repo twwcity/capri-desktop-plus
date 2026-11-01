@@ -17,8 +17,8 @@ Abre la **[página de Releases](https://github.com/twwcity/capri-desktop-plus/re
 
 | Archivo | Contenido |
 |---|---|
-| `Capri-Desktop-Plus-v1.0.1-app.zip` | La app, los scripts de inicio, el reconocimiento de voz (Whisper), herramientas de juegos |
-| `Capri-Desktop-Plus-v1.0.1-voices.zip` | Sus voces (inglés, japonés, chino, coreano, tailandés) |
+| `Capri-Desktop-Plus-v1.0.2-app.zip` | La app, los scripts de inicio, el reconocimiento de voz (Whisper), herramientas de juegos |
+| `Capri-Desktop-Plus-v1.0.2-voices.zip` | Sus voces (inglés, japonés, chino, coreano, tailandés) |
 
 ## 2. Extraer ambos en el mismo lugar
 

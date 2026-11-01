@@ -46,7 +46,7 @@ Windows 10/11 64-bit. Extract both zips into the same place, double-click `Start
 **Your PC**
 - Search and play: "เปิดเพลง …" / "play … on YouTube" opens the top video or Spotify track; links are read before opening; searches on Google, Maps, Shopee, TikTok and more.
 - Media bar: what's playing (with cover art) from Windows media sessions, play/pause, ±10 s, skip, volume, loop, sleep timer; minimizes to a corner chip.
-- Offline single-player game tools: a Cyberpunk 2077 CET mod (`games/cyberpunk/CapriLink`) and a value scanner (`games/memory`) that refuses online games and anti-cheat.
+- Offline single-player game tools: a Cyberpunk 2077 CET mod (`games/cyberpunk/CapriLink`: items by name, cars, self-driving, warp, flying, Blackwall and quickhacks, points, cyberware slots) and a value scanner (`games/memory`) that refuses online games and anti-cheat.
 
 **Minecraft: Capri Link mod** (`minecraft-mod/`, Fabric 1.21.1)
 - `capri <anything>` in game chat: Capri answers in chat (through the desktop app), knowing where you stand.

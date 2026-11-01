@@ -17,8 +17,8 @@ Open the **[Releases page](https://github.com/twwcity/capri-desktop-plus/release
 
 | File | What's inside |
 |---|---|
-| `Capri-Desktop-Plus-v1.0.1-app.zip` | The app, launch scripts, speech recognition (Whisper), game tools |
-| `Capri-Desktop-Plus-v1.0.1-voices.zip` | Her voices (English, Japanese, Chinese, Korean, Thai) |
+| `Capri-Desktop-Plus-v1.0.2-app.zip` | The app, launch scripts, speech recognition (Whisper), game tools |
+| `Capri-Desktop-Plus-v1.0.2-voices.zip` | Her voices (English, Japanese, Chinese, Korean, Thai) |
 
 ## 2. Extract both into the same place
 
@@ -84,6 +84,12 @@ Download `sd-cli.exe` from [stable-diffusion.cpp releases](https://github.com/le
 
 ### Better Thai voices for Omi and D
 Not included (no license to share them). With Python 3.10+: `pip install torch transformers onnx huggingface_hub`, then run `python tools/convert-thai-voice.py out VIZINTZOR/MMS-TTS-THAI-FEMALEV2` and copy `out\model.onnx` plus `voice\sherpa\vits-mms-tha\tokens.txt` into `Capri\voice\sherpa\vits-mms-tha-female\` (MALEV2 → `vits-mms-tha-male` for D).
+
+### Cyberpunk 2077: the CapriLink mod (single-player only)
+1. Close the game, then tell Capri **"install the Cyberpunk mod"**. She downloads Cyber Engine Tweaks from its official GitHub and adds her mod (she finds Steam installs, and GOG or Epic in their default folders).
+2. Start the game and load a save. **F1** opens the CET console; the first time, CET may show a short setup window.
+3. Then tell Capri what you want, in your own words: "give me Rebecca's shotgun", "the best Sandevistan", "100000 eddies", "add 5 perk points", "unlock all cyberware slots", "give me David's car", "drive to my waypoint" (sitting in a car), "warp to the waypoint", "fly", "Blackwall the one I'm aiming at", "burn the enemies around".
+4. After Capri updates the mod, press **Reload all mods** in the CET console.
 
 ### Minecraft: the Capri Link mod
 1. Minecraft Java Edition, version **1.21.1**.

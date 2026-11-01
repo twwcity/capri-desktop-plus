@@ -17,8 +17,8 @@ Capri Desktop Plus 是 [mochiiwuff 的 Capri Desktop](https://github.com/mochiiw
 
 | 文件 | 内容 |
 |---|---|
-| `Capri-Desktop-Plus-v1.0.1-app.zip` | 程序本体、启动脚本、语音识别（Whisper）、游戏工具 |
-| `Capri-Desktop-Plus-v1.0.1-voices.zip` | Capri 的声音（英语、日语、中文、韩语、泰语） |
+| `Capri-Desktop-Plus-v1.0.2-app.zip` | 程序本体、启动脚本、语音识别（Whisper）、游戏工具 |
+| `Capri-Desktop-Plus-v1.0.2-voices.zip` | Capri 的声音（英语、日语、中文、韩语、泰语） |
 
 ## 2. 解压到同一位置
 

@@ -237,21 +237,29 @@ const BY_SCRIPT = [
   [/[ऀ-ॿ]/, 'केवल हिंदी में जवाब दें। सिर्फ Night City की स्लैंग अंग्रेज़ी में रह सकती है।'],
 ];
 // a message that may be a cheat, in your own words (her model then decides), and one that surely is
-const GAME_WORDS = /เสก|เพิ่ม|เติม|ให้|ขอ|ตั้ง|ทำให้|เปลี่ยน|แก้|ปลด|เปิด|ปิด|ไม่จำกัด|ไม่ตาย|อมตะ|เต็ม|แม็กซ์|แมกซ์|โกง|แฮก|แฮ็ก|สูตร|เงิน|เลเวล|ปืน|ชุด|รถ|กระสุน|เลือด|หาค่า|spawn|give|add|set|make|unlock|max|infinite|unlimited|god|cheat|hack|money|level|ammo|health|weapon|car|item/i;
+const GAME_WORDS = /เสก|เพิ่ม|เติม|ให้|ขอ|ตั้ง|ทำให้|เปลี่ยน|แก้|ปลด|เปิด|ปิด|ไม่จำกัด|ไม่ตาย|อมตะ|เต็ม|แม็กซ์|แมกซ์|โกง|แฮก|แฮ็ก|สูตร|เงิน|เลเวล|ปืน|ชุด|รถ|กระสุน|เลือด|หาค่า|spawn|give|add|set|make|unlock|max|infinite|unlimited|god|cheat|hack|money|level|ammo|health|weapon|car|item|ขับ|พาไป|ไปที่|ไปหา|วาร์ป|เทเลพอร์ต|หยุดรถ|จอดรถ|ฆ่า|แบล็ค ?วอล|blackwall|เผา|ช็อต|ช๊อต|ตาบอด|ระเบิด|มอไซ|drive|take me|teleport|warp|kill|burn|shock|บิน|ลอย|ลงจอด|fly|hover|land|อยากได้|อยากมี|เอา.{0,20}มา|ได้ไหม|ได้มั้ย|i want|gimme|get me/i;
 const HACK_WORDS = /โกง|แฮก|แฮ็ก|สูตร|cheat|hack|trainer|หาค่า|ตั้งค่าเป็น/i;
-const CHEATS = new Set(['money', 'item', 'heal', 'ram', 'ammo', 'god', 'time', 'level', 'streetcred', 'perks', 'attributes', 'lua', 'mem_scan', 'mem_next', 'mem_set', 'mem_reset']);
+const CHEATS = new Set(['money', 'item', 'heal', 'ram', 'ammo', 'god', 'time', 'level', 'streetcred', 'perks', 'attributes', 'cyberslots', 'car', 'carlist', 'fly', 'drive', 'stop', 'warp', 'hack', 'lua', 'mem_scan', 'mem_next', 'mem_set', 'mem_reset']);
 const CHEAT_PROMPT = (status) => [
   'You turn a player\'s request (any language) into cheat commands for an OFFLINE single-player game. Reply with JSON only: {"commands":[{"command":"...","value":...,"count":...}]}. If the message is not asking for a cheat or a change in the game, reply {"commands":[]}.',
   status.cyberpunk
     ? `Cyberpunk 2077 (game 2.x, Cyber Engine Tweaks) is running. Commands:
 - money {value: eddies}
-- item {value: TweakDB item record ID like "Items.Preset_Overture_Kerry", "Items.Preset_Lexington_Default", "Items.Preset_Katana_Saburo", "Items.mantis_blade_legendary", count: n}
+- item {value: TweakDB item record ID like "Items.Preset_Overture_Kerry", "Items.Preset_Lexington_Default", "Items.Preset_Katana_Saburo", "Items.mantis_blade_legendary", name: the item's exact English in-game name like "Overture" or "Guts" (used if the ID is wrong), count: n}
 - heal, ram
 - ammo {value: n}
 - god {value: "on" | "off"}
 - time {value: hour 0-23}
 - level {value: 1-60}, streetcred {value: 1-50}
 - perks {value: n}, attributes {value: n}
+- cyberslots: unlock every locked cyberware slot
+- car {value: the car or bike the player wants, in their words, e.g. "David's car", "fast black sports car", "a truck for the badlands", "Jackie's bike"}: unlocked and called over
+- carlist: the player asks what cars there are
+- fly {value: "on" (start, hover) | "off" (land) | "up,metres" | "down,metres" | "go,metres per second" (glide where they look, 25 normal, 80 very fast) | "stop" (hover in place)}
+- drive {value: where, in the player's words, or "waypoint" for the marker on their map; speed: km/h-ish 10-40, optional}: the car they're sitting in drives itself there
+- stop: stop driving by itself
+- warp {value: where, same as drive}: teleport there
+- hack {value: "blackwall" | "kill" | "suicide" | "collapse" | "burn" | "shock" | "blind" | "madness" | "stun" | "poison" | "overheat" | "ping", target: "look" (who they look at, the default) | "hostile" (enemies around) | "all" (everyone around), radius: metres, default 25}. Blackwall = the red Blackwall kill.
 - lua {value: "one Cyber Engine Tweaks Lua snippet"} for anything else, e.g. "Game.AddToInventory('Items.money', 5000)", "Game.GetPlayer():SetWarningMessage('hi')". Use only real CET/game functions.`
     : 'No supported game is running, so only the value finder below can be used.',
   `Value finder, for any other offline game (the window in front), the player tells you the number they see:
@@ -259,6 +267,8 @@ const CHEAT_PROMPT = (status) => [
 - mem_next {value: the new number after it changed}
 - mem_set {value: what to change it to}
 - mem_reset`,
+  'The player often talks through a microphone, so game words may be misheard or spelled the Thai way (ทรานเดวิคสาน / แซนเดวิสถาน = Sandevistan, เคโรซิส = Kerenzikov, มันทิสเบลด = Mantis Blades): guess the game thing it sounds like. Cyberware (Sandevistan, Mantis Blades, Gorilla Arms...) is an item too.',
+  'Use lua only when no command above does it, and only with functions you are sure exist in Cyberpunk 2.x CET: never invent one.',
   'Several requests -> several commands, in order. Never make up a value the player did not give, except sensible defaults (money 100000, ammo 500).',
 ].join('\n');
 
@@ -370,7 +380,8 @@ function gameIntent(t) {
     const n = m[1] || m[2];
     return cp('attributes', n, `Give you ${n} attribute points?`, 'Done.');
   }
-  if ((m = /^(?:เสก|spawn|give me)\s*(?:ปืน|ชุด|ไอเทม|ไอเท็ม|ของ|ดาบ|item|gun|weapon)?\s*(.{2,60})$/i.exec(t))) {
+  if ((m = /^(?:เสก|spawn|give me)\s*(?:ปืน|ชุด|ไอเทม|ไอเท็ม|ของ|ดาบ|item|gun|weapon)?\s*(.{2,60})$/i.exec(t))
+    && !/^(รถ|มอ(เตอร์)?ไซ|บิ๊กไบค์|car|bike|motorcycle|vehicle)/i.test(m[1].trim())) {
     const name = m[1].trim();
     if (/^Items\.[\w]+$/.test(name)) return cp('item', name, `Spawn ${name} in Cyberpunk?`, 'Done.');
     return cp('item', '', `Spawn “${name}” in Cyberpunk?`, 'Done.', { itemName: name });
@@ -692,8 +703,12 @@ export class Chat {
     const status = await this.host.gameStatus().catch(() => ({}));
     if (!force && !status.cyberpunk && !status.scanning && !HACK_WORDS.test(text)) return false;
     this.panel.setChatBusy(true);
+    // what was just said, so "that one" / "เอาอันนั้นเลย" means the car or place she named before
+    const recent = this.history.slice(-6).filter((m) => typeof m.content === 'string')
+      .map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content.slice(0, 600) }));
     const res = await this.host.chatSend({ id: id + 1, messages: [
-      { role: 'system', content: CHEAT_PROMPT(status) },
+      { role: 'system', content: `${CHEAT_PROMPT(status)}\nEarlier messages are context: if the player says "that one", "do it", "เอาอันนั้น", they mean what was just talked about.` },
+      ...recent,
       { role: 'user', content: text },
     ] }).catch(() => null);
     if (this.turn !== id) return true;
@@ -713,15 +728,24 @@ export class Chat {
     let good = 0;
     for (const c of commands) {
       const mem = c.command.startsWith('mem_');
+      if (['car', 'carlist', 'drive', 'warp'].includes(c.command)) {
+        const out = await this.cyberAsk(c, text);
+        if (out.ok) good++;
+        lines.push(out.ok ? out.message : `${c.command}: ${out.error}`);
+        continue;
+      }
       const arg = mem
         ? { command: c.command.slice(4), value: String(c.value ?? '') }
-        : { command: c.command, value: c.command === 'item' ? `${c.value}${c.count ? `,${c.count}` : ''}` : String(c.value ?? '') };
+        : { command: c.command, value: c.command === 'item' ? `${await this.realItem(text, c.value, c.name)},${c.count || 1},${String(c.name || '').replace(/[,|]/g, ' ')}`
+          : c.command === 'hack' ? `${c.value || 'blackwall'},${c.target || 'look'},${c.radius || 25}`
+            : String(c.value ?? '') };
       const out = await this.host.pcAct({ action: mem ? 'memory' : 'cyberpunk', arg });
       if (out.ok) good++;
       lines.push(out.ok ? out.message || 'done' : `${c.command}: ${out.error}`);
     }
     if (this.turn !== id) return true;
     this.turn = 0;
+    this.lastCheat = Date.now();
     const line = `${good === commands.length ? 'Done, choom.' : good ? 'Mostly done.' : "Didn't work."} ${lines.join('. ')}.`;
     this.panel.setFace(good ? 'laugh' : 'aside');
     this.panel.stream(line, { done: true });
@@ -730,19 +754,79 @@ export class Chat {
     return true;
   }
 
+  // Cars and places in Cyberpunk: the mod lists what really exists in the game (in the game's language),
+  // her model picks from that list by what you said, then the mod does it.
+  async cyberAsk(c, request) {
+    const game = (command, value = '') => this.host.pcAct({ action: 'cyberpunk', arg: { command, value } })
+      .catch((e) => ({ ok: false, error: e.message }));
+    const pick = async (system, list) => {
+      const res = await this.host.chatSend({ id: Date.now(), messages: [
+        { role: 'system', content: `${system}\n${languageLine(request) || 'Answer in the language the player wrote in.'}\n\n${list}` },
+        { role: 'user', content: request },
+      ] }).catch(() => null);
+      return res?.ok ? String(res.text || '').trim() : '';
+    };
+    if (c.command === 'car' || c.command === 'carlist') {
+      const cars = await game('cars');
+      if (!cars.ok) return cars;
+      const list = cars.message.split(';').join('\n');
+      if (c.command === 'carlist') {
+        const say = await pick('You know Cyberpunk 2077 cars. These are every car and bike the player can own (id=name in the game\'s language). Sum them up for the player in a few short lines grouped by kind (sports cars, muscle, trucks/off-road, everyday, bikes), naming the standouts (Edgerunners, Johnny, Jackie, Delamain, Porsche...). Plain text, no lists of ids.', list);
+        return { ok: true, message: say || `${cars.message.split(';').length} cars and bikes` };
+      }
+      const say = await pick(`You know Cyberpunk 2077 cars and bikes and what each is like (Quadra Turbo-R V-Tech is David's car from Edgerunners, Porsche 911 is Johnny's, Arch "Jackie's" is Jackie's bike, Caliburn is the fastest hypercar...). Pick the ONE that best fits what the player asks for from this list. Reply on one line: the id | one short sentence on what car it is and why it fits. If they asked for a kind (fast, off-road, truck, bike), pick the best of that kind.`, list);
+      const id = /v_[\w]+_player/.exec(say)?.[0];
+      if (!id) return { ok: false, error: 'I could not tell which car you meant' };
+      const out = await game('car', id);
+      const why = say.split('|').slice(1).join('|').trim();
+      return out.ok ? { ok: true, message: `${out.message}${why ? `. ${why}` : ''}` } : out;
+    }
+    // drive / warp: the map marker, coordinates, or a place picked from the map
+    let where = String(c.value || '').trim();
+    if (/^(waypoint|marker|map marker|หมุด|ที่ปักหมุด|มาร์ค)$/i.test(where) || /หมุด|waypoint|marker|มาร์ค/i.test(request)) where = 'waypoint';
+    else if (!/^-?[\d.]+,-?[\d.]+,-?[\d.]+$/.test(where)) {
+      const places = await game('places');
+      if (!places.ok) return places;
+      const n = /\d+/.exec(await pick('These are places on the player\'s map in Cyberpunk 2077, nearest first: number=name (kind, distance). Kinds: FastTravel, Apartment, Ripperdoc, Guns, Clothes, Food, Bar, Meds, Fixer, DefaultQuest, CustomPosition (their own marker)... Reply with ONLY the number of the place that best fits where the player wants to go (for a kind of place, the nearest one of that kind).', places.message.split(';').join('\n')))?.[0];
+      if (!n) return { ok: false, error: 'I could not find that place on your map' };
+      where = n;
+    }
+    const speed = c.command === 'drive' && c.speed ? `,${Math.max(5, Math.min(Number(c.speed) || 22, 60))}` : '';
+    return game(c.command, `${where}${speed}`);
+  }
+
+  // A Cyberpunk item's real ID: her model's guess is checked against the game's own item list (the mod's
+  // "search"), and if the guess isn't in it, her model picks from the real IDs that came back.
+  async realItem(request, guess = '', name = '') {
+    const ids = (s) => [...String(s || '').matchAll(/Items\.[\w]+/g)].map((m) => m[0]);
+    const found = await this.host.pcAct({ action: 'cyberpunk', arg: { command: 'search', value: `${guess} ${name}` } }).catch(() => null);
+    const list = found?.ok ? String(found.message || '').split(';').filter(Boolean) : [];
+    if (!list.length || list.some((l) => l.split('=')[0] === guess)) return guess;
+    const ask = await this.host.chatSend({ id: Date.now(), messages: [
+      { role: 'system', content: `You know Cyberpunk 2077. These are real item IDs in the player's game, with in-game names in the game's language:\n${list.join('\n')}\nReply with the ONE ID from this list that is what the player asked for (the guess was ${guess || 'none'}, ${name || 'no name'}). Only the ID.` },
+      { role: 'user', content: request },
+    ] }).catch(() => null);
+    const pick = ids(ask?.ok ? ask.text : '').find((i) => list.some((l) => l.startsWith(`${i}=`)));
+    return pick || guess;
+  }
+
   async runAct(act) {
     this.panel.setActions([]);
     this.panel.setChatBusy(true);
     const h = this.capri.head();
     this.capri.zap(h.x + this.capri.towardCenter() * 280, h.y - 170);
-    // an item by its name ("Overture"): her model gives its game ID; the mod says if there's no such thing
+    // an item by its name ("Overture"): her model guesses its game ID, which is checked against the game's list
     if (act.itemName) {
       const ask = await this.host.chatSend({ id: Date.now(), messages: [
-        { role: 'system', content: 'You know Cyberpunk 2077 (game version 2.x) TweakDB record IDs. Reply with ONE item record ID for what the user names, like Items.Preset_Overture_Kerry or Items.Preset_Lexington_Default or Items.Q005_Johnny_Shirt, and nothing else.' },
+        { role: 'system', content: 'You know Cyberpunk 2077 (game version 2.x). For the item the user names (any language), reply on one line: its TweakDB record ID | its exact English in-game name | its base model. Example: Items.Preset_Overture_Kerry | Overture | Overture. Example: Items.Preset_Carnage_Edgerunners | Guts | Carnage. Nothing else.' },
         { role: 'user', content: act.itemName },
       ] }).catch(() => null);
-      const found = ask?.ok && /Items\.[\w]+/.exec(ask.text || '');
-      act.arg = { ...act.arg, value: found ? found[0] : act.itemName.replace(/\s+/g, '_') };
+      const text = ask?.ok ? ask.text || '' : '';
+      const guess = /Items\.[\w]+/.exec(text)?.[0] || '';
+      const parts = text.split('|').slice(1).map((s) => s.replace(/[,|\n]/g, ' ').trim()).filter(Boolean);
+      const name = parts.join(' ') || act.itemName.replace(/[,|]/g, ' ');
+      const id = await this.realItem(act.itemName, guess, name);
+      act.arg = { ...act.arg, value: `${id},1,${parts[0] || name}` };
     }
     const res = await this.host.pcAct({ action: act.action, arg: act.arg });
     if (!this.open) return;
@@ -773,7 +857,7 @@ export class Chat {
       return this.offerAct(act, text, this.turn);
     }
     // a cheat asked for in your own words, while there's a game she can cheat in
-    if (!files.length && !this.agent && !this.mcLive && GAME_WORDS.test(text || '')) {
+    if (!files.length && !this.agent && !this.mcLive && (GAME_WORDS.test(text || '') || Date.now() - (this.lastCheat || 0) < 5 * 60 * 1000)) {
       this.turn = Date.now();
       if (await this.cheat(text, this.turn)) return undefined;
       this.turn = 0;
