@@ -69,10 +69,15 @@ const SAY = { en: [[/\bOmi\b/g, 'Oh-mee'], [/\bCapri\b/g, 'Kah-pree'], [/\bD\b/g
 async function speak(said, who = 'capri') {
   const lang = language(said);
   const text = (SAY[lang] || SAY.en).reduce((t, [re, to]) => t.replace(re, to), said);
-  const v = (VOICES[who] || VOICES.capri)[lang];
+  let v = (VOICES[who] || VOICES.capri)[lang];
+  // a character's own Thai voice not on this PC (not shared in the release: see THIRD-PARTY.md): the
+  // MMS voice, raised the way Capri's is for the women, as it is for the men
+  if (lang === 'th' && v.model && !fs.existsSync(v.model === 'thaiM' ? THAI_M : THAI_F)) {
+    v = v.model === 'thaiF' ? { speed: VOICES.capri.th.speed + 0.04, rate: VOICES.capri.th.rate - 0.12 } : { speed: v.speed, rate: v.rate };
+  }
   let audio;
   if (lang === 'th') {
-    audio = engine(v.model && fs.existsSync(v.model === 'thaiM' ? THAI_M : THAI_F) ? v.model : 'thai').generate({ text, sid: 0, speed: v.speed });
+    audio = engine(v.model ? v.model : 'thai').generate({ text, sid: 0, speed: v.speed });
   } else if (lang === 'ko') {
     ko = ko || require('./ko');
     audio = engine('korean').generate({ text: '', sid: 0, speed: v.speed, generationConfig: new sherpa.GenerationConfig({ sid: 0, speed: v.speed, phonemeCodepoints: ko.phonemes(text) }) });

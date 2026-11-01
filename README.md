@@ -7,6 +7,14 @@ A heavily extended fork of **[Capri Desktop](https://github.com/mochiiwuff/capri
 > **Fork and additions:** [ayla (twwcity)](https://github.com/twwcity), built with Claude Code.
 > Free and non-commercial, like the original: it may not be sold, in any form.
 
+## ⬇ Download & install
+
+**[Download the latest release](https://github.com/twwcity/capri-desktop-plus/releases/latest)** (two zips: app + voices), then follow the guide in your language:
+
+[ไทย](docs/install/INSTALL.th.md) · [English](docs/install/INSTALL.en.md) · [日本語](docs/install/INSTALL.ja.md) · [한국어](docs/install/INSTALL.ko.md) · [中文](docs/install/INSTALL.zh.md) · [Français](docs/install/INSTALL.fr.md) · [Español](docs/install/INSTALL.es.md) · [Português](docs/install/INSTALL.pt.md) · [Русский](docs/install/INSTALL.ru.md)
+
+Windows 10/11 64-bit. Extract both zips into the same place, double-click `Start-Capri.vbs`, and pick an AI when she asks. Third-party parts and their licenses: [THIRD-PARTY.md](THIRD-PARTY.md).
+
 *Capri and every Cyberpunk: Edgerunners character belong to their rights holders (CD PROJEKT RED, Studio Trigger). This is an unofficial fan project; the characters are played by an AI and are not the real ones. See [CREDITS.md](CREDITS.md).*
 
 ---
